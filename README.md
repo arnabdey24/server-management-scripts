@@ -10,7 +10,11 @@ curl -sSL https://raw.githubusercontent.com/arnabdey24/server-management-scripts
 ```
 Script to set up PostgreSQL in Docker:
 ```bash
-curl -sSL https://raw.githubusercontent.com/arnabdey24/server-management-scripts/main/postgres-docker-setup.sh | bash
+# Method 1: With default credentials (username=postgres, password=postgres, db=postgres)
+curl -sSL https://raw.githubusercontent.com/arnabdey24/server-management-scripts/master/postgres-docker-setup.sh | bash
+
+# Method 2: Specify custom credentials as arguments
+curl -sSL https://raw.githubusercontent.com/arnabdey24/server-management-scripts/master/postgres-docker-setup.sh | bash -s username password dbname
 ```
 
 ## Prerequisites

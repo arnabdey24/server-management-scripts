@@ -34,11 +34,15 @@ if [ "$EUID" -ne 0 ]; then
     exit 1
 fi
 
-# Prompt for PostgreSQL credentials
-read -p "Enter PostgreSQL username: " PG_USER
-read -s -p "Enter PostgreSQL password: " PG_PASSWORD
-echo
-read -p "Enter PostgreSQL database name: " PG_DB
+# Set default PostgreSQL credentials if not provided as arguments
+PG_USER=${1:-"postgres"}
+PG_PASSWORD=${2:-"postgres"}
+PG_DB=${3:-"postgres"}
+
+print_message "Using PostgreSQL credentials:"
+print_message "Username: $PG_USER"
+print_message "Password: [HIDDEN]"
+print_message "Database: $PG_DB"
 
 # Check if Docker is installed
 if ! command -v docker &> /dev/null; then
@@ -63,21 +67,27 @@ cd ~/postgres-docker
 
 # Create docker-compose.yml file
 print_message "Creating docker-compose.yml file..."
-cat > docker-compose.yml << EOF
+cat > docker-compose.yml << 'EOL'
+version: '3'
 services:
   postgres:
     image: postgres:latest
     container_name: postgres
     restart: always
     environment:
-      POSTGRES_USER: ${PG_USER}
-      POSTGRES_PASSWORD: ${PG_PASSWORD}
-      POSTGRES_DB: ${PG_DB}
+      POSTGRES_USER: "${PG_USER}"
+      POSTGRES_PASSWORD: "${PG_PASSWORD}"
+      POSTGRES_DB: "${PG_DB}"
     ports:
       - "5432:5432"
     volumes:
       - ./data:/var/lib/postgresql/data
-EOF
+EOL
+
+# Replace the placeholders with actual values
+sed -i "s/\"\${PG_USER}\"/${PG_USER}/g" docker-compose.yml
+sed -i "s/\"\${PG_PASSWORD}\"/${PG_PASSWORD}/g" docker-compose.yml
+sed -i "s/\"\${PG_DB}\"/${PG_DB}/g" docker-compose.yml
 
 # Start PostgreSQL container
 print_message "Starting PostgreSQL container..."
