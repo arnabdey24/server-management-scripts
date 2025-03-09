@@ -65,7 +65,7 @@ cd ~/minio-docker
 
 # Create docker-compose.yml file
 print_message "Creating docker-compose.yml file..."
-cat > docker-compose.yml << 'EOL'
+cat > docker-compose.yml << EOF
 version: '3'
 services:
   minio:
@@ -73,11 +73,11 @@ services:
     container_name: minio
     restart: always
     environment:
-      MINIO_ROOT_USER: "${MINIO_ROOT_USER}"
-      MINIO_ROOT_PASSWORD: "${MINIO_ROOT_PASSWORD}"
+      MINIO_ROOT_USER: $MINIO_ROOT_USER
+      MINIO_ROOT_PASSWORD: $MINIO_ROOT_PASSWORD
     ports:
-      - "${MINIO_PORT}:9000"
-      - "${MINIO_CONSOLE_PORT}:9001"
+      - "$MINIO_PORT:9000"
+      - "$MINIO_CONSOLE_PORT:9001"
     volumes:
       - ./data:/data
     command: server /data --console-address ":9001"
@@ -86,13 +86,7 @@ services:
       interval: 30s
       timeout: 20s
       retries: 3
-EOL
-
-# Replace the placeholders with actual values
-sed -i "s/\"\${MINIO_ROOT_USER}\"/${MINIO_ROOT_USER}/g" docker-compose.yml
-sed -i "s/\"\${MINIO_ROOT_PASSWORD}\"/${MINIO_ROOT_PASSWORD}/g" docker-compose.yml
-sed -i "s/\"\${MINIO_PORT}\"/${MINIO_PORT}/g" docker-compose.yml
-sed -i "s/\"\${MINIO_CONSOLE_PORT}\"/${MINIO_CONSOLE_PORT}/g" docker-compose.yml
+EOF
 
 # Start MinIO container
 print_message "Starting MinIO container..."
