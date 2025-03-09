@@ -6,11 +6,11 @@ This repository contains scripts to manage remote VM.
 
 Script to install Docker and Docker Compose:
 ```bash
-curl -sSL https://raw.githubusercontent.com/arnabdey24/server-management-scripts/main/install-docker.sh | bash
+curl -sSL https://raw.githubusercontent.com/arnabdey24/server-management-scripts/master/install-docker.sh | bash
 ```
 Script to set up PostgreSQL in Docker:
 ```bash
-curl -sSL https://raw.githubusercontent.com/arnabdey24/server-management-scripts/main/postgres-docker-setup.sh | bash
+curl -sSL https://raw.githubusercontent.com/arnabdey24/server-management-scripts/master/postgres-docker-setup.sh | bash
 ```
 
 ## Prerequisites
